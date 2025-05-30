@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel - Proje Yönetimi</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+  <div class="container mt-5">
+    <h1>Admin Panel - Proje Ekle</h1>
+
+    <form id="projeForm">
+      <div class="mb-3">
+        <label for="isim" class="form-label">Proje Adı</label>
+        <input type="text" id="isim" class="form-control" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="aciklama" class="form-label">Proje Açıklaması</label>
+        <textarea id="aciklama" class="form-control" rows="3" required></textarea>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Projeyi Kaydet</button>
+    </form>
+
+    <hr>
+
+    <h2>Mevcut Projeler</h2>
+    <div id="projeListesi" class="mt-3"></div>
+
+  </div>
+
+  <!-- Firebase -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyANK17xMyNdmb-waCkqbR8-ayM0SAxR1EY",
+      authDomain: "portfolyo-cf4ba.firebaseapp.com",
+      projectId: "portfolyo-cf4ba",
+      storageBucket: "portfolyo-cf4ba.firebasestorage.app",
+      messagingSenderId: "73654697526",
+      appId: "1:73654697526:web:1d29fd0dcbe4e0afc0e297"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // Proje ekleme
+    document.getElementById("projeForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+
+      const isim = document.getElementById("isim").value;
+      const aciklama = document.getElementById("aciklama").value;
+
+      try {
+        await addDoc(collection(db, "projeler"), { isim, aciklama, tarih: new Date() });
+        alert("Proje başarıyla eklendi!");
+        document.getElementById("projeForm").reset();
+        projeleriYukle();
+      } catch (err) {
+        alert("Hata: " + err);
+      }
+    });
+
+    // Projeleri yükle ve listele
+    async function projeleriYukle() {
+      const projeListesi = document.getElementById("projeListesi");
+      projeListesi.innerHTML = "";
+
+      const querySnapshot = await getDocs(collection(db, "projeler"));
+      querySnapshot.forEach((docItem) => {
+        const data = docItem.data();
+
+        const div = document.createElement("div");
+        div.className = "card mb-2 p-3";
+        div.innerHTML = `
+          <h5>${data.isim}</h5>
+          <p>${data.aciklama}</p>
+          <button class="btn btn-danger btn-sm" onclick="sil('${docItem.id}')">Sil</button>
+        `;
+
+        projeListesi.appendChild(div);
+      });
+    }
+
+    window.sil = async function(id) {
+      if (confirm("Silmek istediğine emin misin?")) {
+        await deleteDoc(doc(db, "projeler", id));
+        projeleriYukle();
+      }
+    }
+
+    projeleriYukle();
+
+  </script>
+
+</body>
+</html>

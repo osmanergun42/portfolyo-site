@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ort Hesap - Full-Stack Portfolyo - Pro Level</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow">
+    <div class="container">
+      <a class="navbar-brand" href="#">Ort Hesap</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="#anasayfa">Anasayfa</a></li>
+          <li class="nav-item"><a class="nav-link" href="#hakkimda">Hakkımda</a></li>
+          <li class="nav-item"><a class="nav-link" href="#projeler">Projeler</a></li>
+          <li class="nav-item"><a class="nav-link" href="#iletisim">İletişim</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Anasayfa -->
+  <section id="anasayfa" class="section">
+    <div class="container text-center" data-aos="fade-up">
+      <img src="profil.jpg" alt="Profil Foto" class="rounded-circle mb-3" width="180">
+      <h1>Ort Hesap</h1>
+      <p>Yazılım, Donanım ve Mühendislik</p>
+
+      <div class="social-icons">
+        <a href="#" target="_blank"><i class="fab fa-github"></i></a>
+        <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+        <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Hakkımda -->
+  <section id="hakkimda" class="section bg-light">
+    <div class="container" data-aos="fade-right">
+      <h2>Hakkımda</h2>
+      <p>Ben Ort Hesap. Yazılım, donanım ve projelerle uğraşıyorum. Full-stack projeler, gömülü sistemler ve mühendislik uygulamalarında çalışıyorum.</p>
+    </div>
+  </section>
+
+  <!-- Projeler -->
+  <section id="projeler" class="section">
+    <div class="container" data-aos="fade-left">
+      <h2>Projelerim</h2>
+      <div class="row" id="projeListesi"></div>
+    </div>
+  </section>
+
+  <!-- İletişim -->
+  <section id="iletisim" class="section bg-light">
+    <div class="container" data-aos="fade-up">
+      <h2>İletişim</h2>
+      <form id="iletisimFormu">
+        <div class="mb-3">
+          <label>Adınız</label>
+          <input type="text" id="ad" class="form-control" placeholder="Adınızı girin" required>
+        </div>
+        <div class="mb-3">
+          <label>Email</label>
+          <input type="email" id="email" class="form-control" placeholder="Email adresinizi girin" required>
+        </div>
+        <div class="mb-3">
+          <label>Mesaj</label>
+          <textarea id="mesaj" class="form-control" rows="4" placeholder="Mesajınızı yazın" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Gönder</button>
+      </form>
+    </div>
+  </section>
+
+  <footer class="text-center p-3 bg-dark text-white">
+    © 2025 Ort Hesap | Tüm Hakları Saklıdır
+  </footer>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init();
+  </script>
+
+  <script type="module" src="script.js"></script>
+
+  <!-- Firebase -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyANK17xMyNdmb-waCkqbR8-ayM0SAxR1EY",
+      authDomain: "portfolyo-cf4ba.firebaseapp.com",
+      projectId: "portfolyo-cf4ba",
+      storageBucket: "portfolyo-cf4ba.firebasestorage.app",
+      messagingSenderId: "73654697526",
+      appId: "1:73654697526:web:1d29fd0dcbe4e0afc0e297"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    window.firestore = db;  // Bunu script.js için global erişim yapıyoruz
+  </script>
+</body>
+</html>
